@@ -6,6 +6,9 @@
 //! Zihintpause. This extension is adapted to [`core::hint::spin_loop()`] function in Rust core crate,
 //! and thus not implemented separately in platform specific assembly instruction module.
 //!
+//! On hardware implementation of SiFive platform, PAUSE instruction causes a stall of
+//! up to 32 cycles or until a cache eviction occurs, whichever comes first.
+//!
 //! [`core::hint::spin_loop()`]: https://doc.rust-lang.org/stable/core/hint/fn.spin_loop.html
 
 const RS1_SHIFT: usize = 15;
