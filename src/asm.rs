@@ -3,7 +3,7 @@
 //! # Absence of PAUSE instruction
 //!
 //! SiFive cores may have PAUSE instruction implemented, which is also defined in RISC-V extension
-//! Zhintpause. This extension is adapted to [`core::hint::spin_loop()`] function in Rust core crate,
+//! Zihintpause. This extension is adapted to [`core::hint::spin_loop()`] function in Rust core crate,
 //! and thus not implemented separately in platform specific assembly instruction module.
 //!
 //! [`core::hint::spin_loop()`]: https://doc.rust-lang.org/stable/core/hint/fn.spin_loop.html
