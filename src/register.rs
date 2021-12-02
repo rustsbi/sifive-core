@@ -30,6 +30,7 @@ pub mod mbpm {
         }
     }
     /// Reads the register
+    #[inline]
     pub fn read() -> Mbpm {
         let bits: usize;
         unsafe { asm!("csrr {}, 0x7C0", out(reg) bits) };
