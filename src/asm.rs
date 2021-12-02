@@ -182,3 +182,13 @@ pub fn cdiscard_d_l1_all() {
 pub fn cdiscard_d_l1_va(va: usize) {
     unsafe { asm!(".word {}", const 0xFC200073 + (XREG_A0 << RS1_SHIFT), in("a0") va) }
 }
+
+/// MNRET, non-maskable interrupt return instruction
+///
+/// This M-mode only instruction uses the values in `mnepc` and `mnstatus` to return
+/// to the program counter and privileged mode of the interrupted context, respectively.
+/// This instruction also sets the internal `rnmie` state bits.
+#[inline]
+pub unsafe fn mnret() -> ! {
+    asm!(".word 0x70200073", options(noreturn))
+}

@@ -74,3 +74,85 @@ pub mod mfeature {
         asm!("csrrc 0x7C1, {}", in(reg) flags.bits())
     }
 }
+
+/// Rnmi scratch register
+///
+/// The mnscratch CSR holds a 64-bit read-write register, which enables the NMI trap handler
+/// to save and restore the context that was interrupted.
+pub mod mnscratch {
+    /// Reads the `mnscratch` register
+    #[inline]
+    pub fn read() -> usize {
+        let ans: usize;
+        unsafe { asm!("csrr {}, 0x351", out(reg) ans) };
+        ans
+    }
+    /// Writes the `mnscratch` register
+    #[inline]
+    pub unsafe fn write(data: usize) {
+        asm!("csrw 0x351, {}", in(reg) data)
+    }
+}
+
+/// Rnmi exception program counter register
+///
+/// The mnepc CSR is a 64-bit read-write register, which, on entry to the NMI trap handler,
+/// holds the PC of the instruction that took the interrupt. The lowest bit of mnepc is
+/// hardwired to zero.
+pub mod mnepc {
+    /// Reads the `mnepc` register
+    #[inline]
+    pub fn read() -> usize {
+        let ans: usize;
+        unsafe { asm!("csrr {}, 0x351", out(reg) ans) };
+        ans
+    }
+}
+
+/// Rnmi cause register
+///
+/// The mncause CSR holds the reason for the NMI, with bit 63 set to 1, and the NMI cause
+/// encoded in the least-significant bits, or zero if NMI causes are not supported.
+///
+/// The lower bits of mncause, defined as the exception_code, are as follows:
+///
+/// | mncause | NMI Cause | Function |
+/// |:--------|:----------|:---------|
+/// | 1 | *Reserved* | *Reserved* |
+/// | 2 | RNMI input pin | External `rnmi_N` input |
+/// | 3 | Bus error | RNMI caused by BEU |
+pub mod mncause {
+    /// NMI causes
+    #[repr(usize)]
+    pub enum Nmi {
+        RnmiInput = 2,
+        BusError = 3,
+    }
+
+    /// Check if NMI cause is supported
+    #[inline]
+    pub fn is_supported() -> bool {
+        let ans: usize;
+        unsafe { asm!("csrr {}, 0x352", out(reg) ans) };
+        ans != 0
+    }
+
+    /// Reads the NMI cause, or None if not supported
+    #[inline]
+    pub fn exception_code() -> Option<Nmi> {
+        let ans: usize;
+        unsafe { asm!("csrr {}, 0x352", out(reg) ans) };
+        match ans {
+            2 => Some(Nmi::RnmiInput),
+            3 => Some(Nmi::BusError),
+            _ => None,
+        }
+    }
+}
+
+/// Rnmi status register
+///
+/// The mnstatus CSR holds a two-bit field, which, on entry to the trap handler,
+/// holds the privilege mode of the interrupted context encoded in the same manner
+/// as mstatus.mpp.
+pub mod mnstatus {}

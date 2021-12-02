@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Explanation of current state of PAUSE instruction
 - Clearify that feature disable must run on M mode 
+- Support the NMI registers and instructions
 
 ### Modified
 - Set CEASE to be unsafe function
