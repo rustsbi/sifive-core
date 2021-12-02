@@ -22,6 +22,8 @@ bitflags::bitflags! {
 }
 
 /// Enable features on bootloading
+///
+/// Must run on M mode.
 #[inline]
 pub unsafe fn enable(flags: Mask) {
     mfeature::clear_features(flags)

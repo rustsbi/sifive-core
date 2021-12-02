@@ -57,10 +57,6 @@ pub unsafe fn cease() -> ! {
 ///
 /// This instruction writes back and invalidates all lines in the L1 data cache.
 ///
-/// # Hardware implmenetaion
-///
-/// Implemented as state machine in L1 data cache, for cores with data caches.
-///
 /// # Privilege mode permissions
 ///
 /// Only available in M-mode.
@@ -74,6 +70,10 @@ pub unsafe fn cease() -> ! {
 // *not* supported by S54, S51, S21, E34, E31, E24, E21 and E20 cores
 //
 /// If this instruction is not supported by current platform, an illegal-instruction exception is raised.
+///
+/// # Hardware implmenetaion
+///
+/// Implemented as state machine in L1 data cache, for cores with data caches.
 #[inline]
 pub fn cflush_d_l1_all() {
     unsafe { asm!(".word 0xFC000073") }
@@ -83,10 +83,6 @@ pub fn cflush_d_l1_all() {
 ///
 /// This instruction writes back and invalidates the L1 data cache line containing
 /// the virtual address in integer register rs1.
-///
-/// # Hardware implmenetaion
-///
-/// Implemented as state machine in L1 data cache, for cores with data caches.
 ///
 /// # Privilege mode permissions
 ///
@@ -114,6 +110,10 @@ pub fn cflush_d_l1_all() {
 // SiFive® Essential™ U74, U74-MC, U54, U54-MC, S54, S51, S21, E34, E31, E24, E21 and E20 cores.
 //
 /// If this instruction is not supported by current platform, an illegal-instruction exception is raised.
+///
+/// # Hardware implmenetaion
+///
+/// Implemented as state machine in L1 data cache, for cores with data caches.
 #[inline]
 pub fn cflush_d_l1_va(va: usize) {
     unsafe { asm!(".word {}", const 0xFC000073 + (XREG_A0 << RS1_SHIFT), in("a0") va) }
@@ -123,10 +123,6 @@ pub fn cflush_d_l1_va(va: usize) {
 ///
 /// This instruction invalidates, but does not write back, all lines in the L1 data cache.
 /// Dirty data within the cache is lost.
-///
-/// # Hardware implmenetaion
-///
-/// Implemented as state machine in L1 data cache, for cores with data caches.
 ///
 /// # Privilege mode permissions
 ///
@@ -141,6 +137,10 @@ pub fn cflush_d_l1_va(va: usize) {
 // *not* supported by S54, S51, S21, E34, E31, E24, E21 and E20 cores
 //
 /// If this instruction is not supported by current platform, an illegal-instruction exception is raised.
+///
+/// # Hardware implmenetaion
+///
+/// Implemented as state machine in L1 data cache, for cores with data caches.
 #[inline]
 pub fn cdiscard_d_l1_all() {
     unsafe { asm!(".word 0xFC200073") }
@@ -151,10 +151,6 @@ pub fn cdiscard_d_l1_all() {
 /// This instruction invalidates, but does not write back, the L1 data cache line containing
 /// the virtual address in integer parameter `va`.
 /// Dirty data within the cache line is lost.
-///
-/// # Hardware implmenetaion
-///
-/// Implemented as state machine in L1 data cache, for cores with data caches.
 ///
 /// # Privilege mode permissions
 ///
@@ -178,6 +174,10 @@ pub fn cdiscard_d_l1_all() {
 /// all SiFive® Intelligence™ cores, and SiFive® Essential™ U7, U5, S7 and E7 cores.
 ///
 /// If this instruction is not supported by current platform, an illegal-instruction exception is raised.
+///
+/// # Hardware implmenetaion
+///
+/// Implemented as state machine in L1 data cache, for cores with data caches.
 #[inline]
 pub fn cdiscard_d_l1_va(va: usize) {
     unsafe { asm!(".word {}", const 0xFC200073 + (XREG_A0 << RS1_SHIFT), in("a0") va) }
