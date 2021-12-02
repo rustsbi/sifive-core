@@ -7,6 +7,10 @@ const XREG_A0: usize = 10;
 /// 
 /// This function will never return and will immediately cease the current hart.
 /// 
+/// # Privilege mode perimissions
+/// 
+/// This is a privileged instruction and it's only available in M-mode.
+/// 
 /// # Hardware implmenetaion
 ///
 /// After retiring CEASE, hart will not retire another instruction until reset.
@@ -17,15 +21,9 @@ const XREG_A0: usize = 10;
 /// CEASE has no effect on System Bus Access.
 /// 
 /// Debug `haltreq` will not work after a CEASE instruction has retired.
-/// 
-/// # Privilege mode perimissions
-/// 
-/// This is a privileged instruction and it's only available in M-mode.
 #[inline]
-pub fn cease() -> ! {
-    unsafe { 
-        asm!(".word 0x30500073", options(noreturn))
-    }
+pub unsafe fn cease() -> ! {
+    asm!(".word 0x30500073", options(noreturn))
 }
 
 /// PAUSE, spin-wait loop idle instruction
