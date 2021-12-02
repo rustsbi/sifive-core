@@ -1,0 +1,24 @@
+[package]
+name = "sifive-core"
+description = "Low level access to SiFive RISC-V processor cores"
+version = "0.0.1"
+repository = "https://github.com/luojia65/sifive-core"
+documentation = "https://docs.rs/sifive-core"
+license = "MulanPSL-2.0"
+readme = "README.md"
+categories = ["embedded", "hardware-support", "no-std"]
+keywords = ["riscv", "register"]
+edition = "2021"
+
+[package.metadata.docs.rs]
+default-target = "riscv64imac-unknown-none-elf"
+targets = [
+    "riscv32i-unknown-none-elf", "riscv32imc-unknown-none-elf", "riscv32imac-unknown-none-elf",
+    "riscv64imac-unknown-none-elf", "riscv64gc-unknown-none-elf",
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bitflags = "1.3"
+bit_field = "0.10"
