@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Modified
 - Set CEASE to be unsafe function
 - Rearrange documents
+- Temporarily hide SiFive platform features
 
 ### Removed
 - PAUSE instruction, it will be in `core::hint::spin_loop`

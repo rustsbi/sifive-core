@@ -48,6 +48,7 @@ pub mod mbpm {
     }
 }
 
+#[doc(hidden)] // hide by now, API has not been decided yet
 /// Feature disable register
 ///
 /// The SiFive custom M-mode Feature Disable CSR is provided to enable or disable certain

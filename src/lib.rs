@@ -10,5 +10,6 @@
 #![no_std]
 
 pub mod asm;
+#[doc(hidden)] // hide by now, API has not been decided yet
 pub mod feature;
 pub mod register;
