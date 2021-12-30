@@ -76,7 +76,7 @@ pub unsafe fn cease() -> ! {
 #[inline]
 pub fn cflush_d_l1_all() {
     // opcode: 0xFC000073
-    unsafe { asm!(".insn i 0x73, 0, x0, x0, 0xFC0") }
+    unsafe { asm!(".insn i 0x73, 0, x0, x0, -0x40") }
 }
 
 /// CFLUSH.D.L1 rs1, L1 data cache flush virtual address instruction
@@ -117,7 +117,7 @@ pub fn cflush_d_l1_all() {
 #[inline]
 pub fn cflush_d_l1_va(va: usize) {
     // opcode: 0xFC000073 + (rs1 << 15)
-    unsafe { asm!(".insn i 0x73, 0, x0, {}, 0xFC0", in(reg) va) }
+    unsafe { asm!(".insn i 0x73, 0, x0, {}, -0x40", in(reg) va) }
 }
 
 /// CDISCARD.D.L1 x0, L1 data cache full-cache invalidate instruction
@@ -145,7 +145,7 @@ pub fn cflush_d_l1_va(va: usize) {
 #[inline]
 pub fn cdiscard_d_l1_all() {
     // opcode: 0xFC200073
-    unsafe { asm!(".insn i 0x73, 0, x0, x0, 0xFC2") }
+    unsafe { asm!(".insn i 0x73, 0, x0, x0, -0x3E") }
 }
 
 /// CDISCARD.D.L1 rs1, L1 data cache invalidate virtual address instruction
@@ -183,7 +183,7 @@ pub fn cdiscard_d_l1_all() {
 #[inline]
 pub fn cdiscard_d_l1_va(va: usize) {
     // opcode: 0xFC200073 + (rs1 << 15)
-    unsafe { asm!(".insn i 0x73, 0, x0, {}, 0xFC2", in(reg) va) }
+    unsafe { asm!(".insn i 0x73, 0, x0, {}, -0x3E", in(reg) va) }
 }
 
 /// MNRET, non-maskable interrupt return instruction
