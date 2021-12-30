@@ -11,6 +11,7 @@
 /// undesirable timing variability for hard real-time systems. The bpm register provides a means to customize
 /// the branch predictor behavior to trade average performance for a more predictable execution time
 pub mod mbpm {
+    use core::arch::asm;
     use bit_field::BitField;
     /// Branch prediction mode register
     #[derive(Clone, Copy, Debug)]
@@ -67,6 +68,7 @@ pub mod mbpm {
 /// used in a very limited number of situations, as detailed in the Example Usage entry in tables
 /// on documentation of each core.
 pub mod mfeature {
+    use core::arch::asm;
     use crate::feature::Mask;
 
     /// Clear corresponding bits in feature register
@@ -81,6 +83,7 @@ pub mod mfeature {
 /// The mnscratch CSR holds a 64-bit read-write register, which enables the NMI trap handler
 /// to save and restore the context that was interrupted.
 pub mod mnscratch {
+    use core::arch::asm;
     /// Reads the `mnscratch` register
     #[inline]
     pub fn read() -> usize {
@@ -101,6 +104,7 @@ pub mod mnscratch {
 /// holds the PC of the instruction that took the interrupt. The lowest bit of mnepc is
 /// hardwired to zero.
 pub mod mnepc {
+    use core::arch::asm;
     /// Reads the `mnepc` register
     #[inline]
     pub fn read() -> usize {
@@ -123,6 +127,7 @@ pub mod mnepc {
 /// | 2 | RNMI input pin | External `rnmi_N` input |
 /// | 3 | Bus error | RNMI caused by BEU |
 pub mod mncause {
+    use core::arch::asm;
     /// NMI causes
     #[repr(usize)]
     pub enum Nmi {
