@@ -1,7 +1,7 @@
 [package]
 name = "sifive-core"
 description = "Low level access to SiFive RISC-V processor cores"
-version = "0.0.2"
+version = "0.1.0"
 repository = "https://github.com/luojia65/sifive-core"
 documentation = "https://docs.rs/sifive-core"
 license = "MulanPSL-2.0"
