@@ -10,9 +10,7 @@
 //! up to 32 cycles or until a cache eviction occurs, whichever comes first.
 //!
 //! [`core::hint::spin_loop()`]: https://doc.rust-lang.org/stable/core/hint/fn.spin_loop.html
-
-const RS1_SHIFT: usize = 15;
-const XREG_A0: usize = 10;
+use core::arch::asm;
 
 /// CEASE, core halt instruction
 ///
@@ -50,7 +48,8 @@ const XREG_A0: usize = 10;
 /// Debug `haltreq` will not work after a CEASE instruction has retired.
 #[inline]
 pub unsafe fn cease() -> ! {
-    asm!(".word 0x30500073", options(noreturn))
+    // opcode: 0x30500073
+    asm!(".insn i 0x73, 0, x0, x0, 0x305", options(noreturn))
 }
 
 /// CFLUSH.D.L1 x0, L1 data cache full-cache flush instruction
@@ -76,7 +75,8 @@ pub unsafe fn cease() -> ! {
 /// Implemented as state machine in L1 data cache, for cores with data caches.
 #[inline]
 pub fn cflush_d_l1_all() {
-    unsafe { asm!(".word 0xFC000073") }
+    // opcode: 0xFC000073
+    unsafe { asm!(".insn i 0x73, 0, x0, x0, 0xFC0") }
 }
 
 /// CFLUSH.D.L1 rs1, L1 data cache flush virtual address instruction
@@ -116,7 +116,8 @@ pub fn cflush_d_l1_all() {
 /// Implemented as state machine in L1 data cache, for cores with data caches.
 #[inline]
 pub fn cflush_d_l1_va(va: usize) {
-    unsafe { asm!(".word {}", const 0xFC000073 + (XREG_A0 << RS1_SHIFT), in("a0") va) }
+    // opcode: 0xFC000073 + (rs1 << 15)
+    unsafe { asm!(".insn i 0x73, 0, x0, {}, 0xFC0", in(reg) va) }
 }
 
 /// CDISCARD.D.L1 x0, L1 data cache full-cache invalidate instruction
@@ -143,7 +144,8 @@ pub fn cflush_d_l1_va(va: usize) {
 /// Implemented as state machine in L1 data cache, for cores with data caches.
 #[inline]
 pub fn cdiscard_d_l1_all() {
-    unsafe { asm!(".word 0xFC200073") }
+    // opcode: 0xFC200073
+    unsafe { asm!(".insn i 0x73, 0, x0, x0, 0xFC2") }
 }
 
 /// CDISCARD.D.L1 rs1, L1 data cache invalidate virtual address instruction
@@ -180,7 +182,8 @@ pub fn cdiscard_d_l1_all() {
 /// Implemented as state machine in L1 data cache, for cores with data caches.
 #[inline]
 pub fn cdiscard_d_l1_va(va: usize) {
-    unsafe { asm!(".word {}", const 0xFC200073 + (XREG_A0 << RS1_SHIFT), in("a0") va) }
+    // opcode: 0xFC200073 + (rs1 << 15)
+    unsafe { asm!(".insn i 0x73, 0, x0, {}, 0xFC2", in(reg) va) }
 }
 
 /// MNRET, non-maskable interrupt return instruction
@@ -190,5 +193,6 @@ pub fn cdiscard_d_l1_va(va: usize) {
 /// This instruction also sets the internal `rnmie` state bits.
 #[inline]
 pub unsafe fn mnret() -> ! {
-    asm!(".word 0x70200073", options(noreturn))
+    // opcode: 0x70200073
+    asm!(".insn i 0x73, 0, x0, x0, 0x702", options(noreturn))
 }
