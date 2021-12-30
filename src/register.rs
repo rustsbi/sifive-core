@@ -11,8 +11,8 @@
 /// undesirable timing variability for hard real-time systems. The bpm register provides a means to customize
 /// the branch predictor behavior to trade average performance for a more predictable execution time
 pub mod mbpm {
-    use core::arch::asm;
     use bit_field::BitField;
+    use core::arch::asm;
     /// Branch prediction mode register
     #[derive(Clone, Copy, Debug)]
     #[repr(transparent)]
@@ -40,12 +40,12 @@ pub mod mbpm {
     /// Set mode to dynamic direction prediction.
     #[inline]
     pub unsafe fn clear_bdp() {
-        asm!("csrrci 0x7C0, 0")
+        asm!("csrci 0x7C0, 0")
     }
     /// Set mode to static-taken direction prediction.
     #[inline]
     pub unsafe fn set_bdp() {
-        asm!("csrrsi 0x7C0, 0")
+        asm!("csrsi 0x7C0, 0")
     }
 }
 
@@ -68,13 +68,13 @@ pub mod mbpm {
 /// used in a very limited number of situations, as detailed in the Example Usage entry in tables
 /// on documentation of each core.
 pub mod mfeature {
-    use core::arch::asm;
     use crate::feature::Mask;
+    use core::arch::asm;
 
     /// Clear corresponding bits in feature register
     #[inline]
     pub unsafe fn clear_features(flags: Mask) {
-        asm!("csrrc 0x7C1, {}", in(reg) flags.bits())
+        asm!("csrc 0x7C1, {}", in(reg) flags.bits())
     }
 }
 
@@ -161,4 +161,7 @@ pub mod mncause {
 /// The mnstatus CSR holds a two-bit field, which, on entry to the trap handler,
 /// holds the privilege mode of the interrupted context encoded in the same manner
 /// as mstatus.mpp.
-pub mod mnstatus {}
+pub mod mnstatus {
+    // FIXME: this register is located at CSR 0x353, but the specifications did not give
+    // how the bits in this register is defined.
+}
